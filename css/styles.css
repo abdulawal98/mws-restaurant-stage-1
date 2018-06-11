@@ -11,6 +11,8 @@ body {
 	background-color: #fdfdfd;
 	margin: 0;
 	position:relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
@@ -38,6 +40,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 #footer {
   background-color: #444;
@@ -60,7 +64,7 @@ nav h1 {
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 20px;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -72,6 +76,7 @@ nav h1 a {
     font-size: 17px;
     margin: 0;
     width: calc(50% - 80px);
+    max-width: 100%;
 }
 
 /* Display list items side by side */
@@ -121,7 +126,7 @@ nav h1 a {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
-  font-size: 11pt;
+  font-size: 14px;
   height: 35px;
   letter-spacing: 0;
   margin: 10px;
@@ -130,15 +135,17 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Listing ====================== */
-ul#restaurants-list li {
-    float: left;
-}
+
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 #restaurants-list li {
   background-color: #fff;
