@@ -163,20 +163,28 @@ nav h1 a {
   min-width: 270px;
   max-width: 300px;
 }
-@media only screen and (min-width: 0px){
+
+@media only screen and (min-width: 0px) and (max-width: 713px){
   #restaurants-list li{
     max-width: 100%;
   }
+
+
 }
-@media only screen and (min-width: 714px){
+@media only screen and (min-width: 714px) and (max-width: 1031px){
   #restaurant-list li{
     max-width: 45%;
   }
 }
 @media only screen and (min-width: 1032px){
   #restaurant-list li{
-    max-width: 300px;
+     max-width: none;
   }
+
+  #restaurants-list .restaurant-img {
+    max-width: none;
+  }
+ 
 }
 
 
@@ -250,6 +258,7 @@ nav h1 a {
   font-weight: 200;
   letter-spacing: 0;
   margin: 15px 0 30px;
+  padding: 5px;
   text-transform: uppercase;
   line-height: 1.1;
 }
@@ -257,8 +266,8 @@ nav h1 a {
 	width: 100%;
 }
 #restaurant-address {
-  font-size: 12pt;
-  margin: 10px 0px;
+  font-size: 20px;
+  
 }
 #restaurant-cuisine {
   background-color: #333;
