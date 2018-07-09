@@ -326,4 +326,9 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+  font-size: 12pt;
+}
+
+.restaurant-info-label{
+font-size: 11pt;
 }

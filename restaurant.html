@@ -34,26 +34,26 @@
   
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
+      <h1 id="restaurant-name" tabindex="1"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>       
     </section>    
     <!-- end restaurant -->
 <!-- Beginning restaurant-address-hours -->
-   <section id="restaurant-address-hours">
+   <section id="restaurant-address-hours" tabindex="2">
       <p id="restaurant-address" aria-labelledby="restaurant-address-label"></p>
       <label id="restaurant-address-label" class="restaurant-info-label">address</label>
       <!-- Beginning map -->
      
       <section id="map-container" aria-labelledby="map-aria-description" role="application">
-        <div id="map"></div>       
+        <div id="map" role="application"></div>       
       </section>
-      <div>
+      <div style="width: 100%">
        <label id="map-aria-description">Google Map Application</label>
      </div>
     <!-- End map -->
-    <div>
-        <label id="restaurant-hours-label" class="restaurant_info-label">Hours of operations</label>
+    <div tabindex="3">
+        <label id="restaurant-hours-label" class="restaurant-info-label">Hours of operations</label>
         <div class="restaurant-hours-flex">
            <table id="restaurant-hours">
              
@@ -64,7 +64,7 @@
     </section>
  <!-- End restaurant-address-hours -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <section id="reviews-container" tabindex="4">
       <ul id="reviews-list"></ul>
     </section>
 
