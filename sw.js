@@ -42,9 +42,9 @@ self.addEventListener('fetch', function(event) {
           cache.put(event.request, responseClone);
         });
         return response;
-      }).catch(function () {
-        return caches.match('/sw-test/gallery/myLittleVader.jpg');
-      });
+      }).catch(error => {
+          console.log("Caches open error: " + error);
+        });
     }
   }));
 });
