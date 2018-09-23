@@ -166,6 +166,34 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
+  //Favourite button
+  const favouriteButton = document.createElement('button');
+  favouriteButton.innerHTML = '&#9829;';
+  li.append(favouriteButton);
+
+  var span = document.createElement("span");
+  span.innerHTML = "&nbsp;&nbsp;&nbsp;"; // (if this doesn't work try " ")
+  li.append(span);
+
+  //toggleFavouriteButton(restaurant.is_favorite);
+  if(restaurant.is_favorite)
+      favouriteButton.className = 'favouriteRestaurant';
+    else
+      favouriteButton.className = 'UnFavouriteRestaurant';
+
+
+  favouriteButton.onclick = function(){
+    const isFavourite = !restaurant.is_favorite;
+    //toggleFavouriteButton(isFavourite);
+    DBHelper.makeRestaurantFavourite(restaurant.id,isFavourite);
+
+    if(isFavourite)
+      favouriteButton.className = 'favouriteRestaurant';
+    else
+      favouriteButton.className = 'UnFavouriteRestaurant';
+
+  }
+
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
@@ -173,6 +201,8 @@ createRestaurantHTML = (restaurant) => {
 
   return li
 }
+
+
 
 /**
  * Add markers for current restaurants to the map.

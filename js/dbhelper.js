@@ -176,4 +176,51 @@ class DBHelper {
     return marker;
   }
 
+  /**
+   Make restaurant favourite or unfavourite
+  */
+
+
+
+  static makeRestaurantFavourite(restaurantId,isFavourite){
+
+  	// `http://localhost:${port}/restaurants`;
+
+  console.log('Change isFavourite to ' + isFavourite);
+  var url =  `http://localhost:1337/restaurants/${restaurantId}/?is_favorite=${isFavourite}`;
+  console.log(url);
+
+   fetch(url,{
+   	method : 'PUT'
+   })
+   .then(() => {
+   	console.log('Updated isFavourite status');
+   	this.dbPromise()
+   	.then(db => {
+   	console.log('Updated isFavourite status2');	
+     const transaction =  db.transaction('restaurants','readwrite');
+     const objStore = transaction.objectStore('restaurants');
+     console.log('transaction ' + transaction);
+     objStore.get(restaurantId)
+     .then(restaurant => {
+     	restaurant.is_favorite = isFavourite;
+     	objStore.put(restaurant);
+
+     });
+
+   	})//End of then
+
+   }
+
+
+   	)//end of then
+
+
+  
+
+  }//end of function makeRestaurantFavourite
+
+
+
+
 }

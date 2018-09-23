@@ -226,6 +226,14 @@ nav h1 a {
   text-transform: uppercase;
 }
 
+.favouriteRestaurant{
+  color: red;
+}
+
+.UnFavouriteRestaurant{
+  color: gray;
+}
+
 /* ====================== Restaurant Details ====================== */
 .inside header {
   position: fixed;
