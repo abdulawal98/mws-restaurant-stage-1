@@ -175,24 +175,38 @@ createRestaurantHTML = (restaurant) => {
   span.innerHTML = "&nbsp;&nbsp;&nbsp;"; // (if this doesn't work try " ")
   li.append(span);
 
+  console.log("ID " + restaurant.id + " restaurant.is_favorite =" + restaurant.is_favorite);
+  console.log(favouriteButton);
+
   //toggleFavouriteButton(restaurant.is_favorite);
-  if(restaurant.is_favorite)
+  if(restaurant.is_favorite === 'true')
       favouriteButton.className = 'favouriteRestaurant';
     else
       favouriteButton.className = 'UnFavouriteRestaurant';
 
 
   favouriteButton.onclick = function(){
-    const isFavourite = !restaurant.is_favorite;
+    const isFavourite = restaurant.is_favorite;
+
+    const id = restaurant.id;
+     console.log("restaurant.id = " + id + "isFavourite = " + isFavourite);
     //toggleFavouriteButton(isFavourite);
-    DBHelper.makeRestaurantFavourite(restaurant.id,isFavourite);
+    
 
-    if(isFavourite)
+    if(isFavourite === 'false'){
       favouriteButton.className = 'favouriteRestaurant';
-    else
+       restaurant.is_favorite = true;
+    }
+    else{
       favouriteButton.className = 'UnFavouriteRestaurant';
+      restaurant.is_favorite = false;
+    }
 
-  }
+   
+
+    DBHelper.makeRestaurantFavourite(restaurant.id,restaurant.is_favorite);
+
+  }// End of function favorite click
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';

@@ -162,3 +162,20 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+Add restaurant review
+*/
+addReview = () => {
+
+  alert("In review");
+  event.preventDefault();
+
+  /*let restaurantId = getParameterByName('id');
+  let name = document.getElementById('review-author').value;
+  var selectR = document.getElementById('select_rating');
+  let rating = selectR.options[selectR.selectedIndex].text;
+  let comments = document.getElementById('review-comments').value;
+  const review = {};*/
+
+}

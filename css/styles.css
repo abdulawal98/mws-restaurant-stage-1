@@ -228,7 +228,7 @@ nav h1 a {
 
 .favouriteRestaurant{
   color: red;
-}
+} 
 
 .UnFavouriteRestaurant{
   color: gray;
@@ -291,12 +291,13 @@ nav h1 a {
   text-transform: uppercase;
 	width: 90%;
 }
-#restaurant-container, #reviews-container {
+#restaurant-container, #reviews-container,#add-review-form-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
   width: 50%;
 }
+
 #reviews-container {
   padding: 30px 40px 80px;
 }

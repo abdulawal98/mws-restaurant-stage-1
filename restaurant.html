@@ -63,6 +63,30 @@
      </div>
     </section>
  <!-- End restaurant-address-hours -->
+ <!--Add review form  -->
+ <section id="add-review-form-container">
+  <h2 id="form-review-name">Add Review</h2>
+  <form id="form-review">
+    <label for="review-author">Author:</label><br>
+    <input id="review-author" name="name" type="text"/>
+    <div tabindex="4">
+      <p>Rating:</p>
+      <select aria-label="Select Rating" id="select_rating" name="Rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>    
+
+    <label for="review-comments">Comments:</label><br>
+    <textarea id="review-comments" name="comments"></textarea><br>
+    <div id="form-error-review"></div>
+    <input type="button" value="Add review" onclick="addReview()"/>
+  </form>   
+ </section>
+ <!--End of Add review -->
     <!-- Beginning reviews -->
     <section id="reviews-container" tabindex="4">
       <ul id="reviews-list"></ul>
