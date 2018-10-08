@@ -1,6 +1,7 @@
 let restaurant;
 var map;
 
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -94,23 +95,46 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+ 
+fillReviewsHTML = () => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+  var reviews2;
 
-  if (!reviews) {
-    const noReviews = document.createElement('p');
-    noReviews.innerHTML = 'No reviews yet!';
-    container.appendChild(noReviews);
-    return;
-  }
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
-  container.appendChild(ul);
+  //Need to call review API
+  console.log("Inside review , restaurant id "  + self.restaurant.id);
+  
+  
+  DBHelper.fetchReviewByRestaurantId(self.restaurant.id, (error, reviews) => {
+      
+      //callback(null, restaurant)
+       reviews2 = reviews;
+
+        if (!reviews2) {
+          const noReviews = document.createElement('p');
+          noReviews.innerHTML = 'No reviews yet!';
+          container.appendChild(noReviews);
+          return;
+        }
+     
+
+       const ul = document.getElementById('reviews-list');
+       reviews2.forEach(review => {
+        ul.appendChild(createReviewHTML(review));
+       });
+        container.appendChild(ul);
+
+
+    });
+
+
+
+ 
+
+  //it is move to up
+ 
 }
 
 /**
@@ -168,14 +192,37 @@ Add restaurant review
 */
 addReview = () => {
 
-  alert("In review");
-  event.preventDefault();
+  //alert("In review");
+  //event.preventDefault();
+  var url = 'http://localhost:1337/reviews/';
 
-  /*let restaurantId = getParameterByName('id');
+  let restaurantId = getParameterByName('id');
   let name = document.getElementById('review-author').value;
   var selectR = document.getElementById('select_rating');
   let rating = selectR.options[selectR.selectedIndex].text;
   let comments = document.getElementById('review-comments').value;
-  const review = {};*/
 
-}
+  console.log("restaurantId " + restaurantId);
+  console.log("name " + name);
+  console.log(rating);
+  const review = {
+    "restaurant_id": restaurantId,
+    "name": name,
+    "rating": rating,
+    "comments": comments
+              };
+
+
+ 
+
+fetch(url, {
+  method: 'post',
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(review)
+}).then(res=>res.json())
+  .then(res => console.log(res));
+
+}//End of add review function

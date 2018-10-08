@@ -12,6 +12,28 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+   
+
+static fetchReviewByRestaurantId(id,callback){
+   const port = 1337 // Change this to your server port
+  var fetchURL = `http://localhost:${port}/reviews/?restaurant_id=${id}`;
+
+  //fetchURL = DBHelper.REVIEW_URL(id);
+  console.log("fetchReviewByRestaurantId, url " + fetchURL);
+  fetch(fetchURL, { method: 'GET' })
+      .then(response => {        
+        response.json().then(reviews => {
+          console.log("reviews JSON: ", reviews);
+          callback(null, reviews);
+        });
+      })
+      .catch(error => {
+        callback(`Request failed. Returned ${error}`, null);
+      });
+  
+}//End of function
+
+
   /**
    * Fetch all restaurants.
    */
