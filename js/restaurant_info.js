@@ -223,6 +223,11 @@ fetch(url, {
   },
   body: JSON.stringify(review)
 }).then(res=>res.json())
-  .then(res => console.log(res));
+  .then(res => {
+    console.log(res);
+    window.location.reload(true);
+  });
+
+  //window.location.reload(true);
 
 }//End of add review function
