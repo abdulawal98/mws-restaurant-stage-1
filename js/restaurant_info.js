@@ -194,7 +194,7 @@ addReview = () => {
 
   //alert("In review");
   //event.preventDefault();
-  var url = 'http://localhost:1337/reviews/';
+  //var url = 'http://localhost:1337/reviews/';
 
   let restaurantId = getParameterByName('id');
   let name = document.getElementById('review-author').value;
@@ -212,22 +212,64 @@ addReview = () => {
     "comments": comments
               };
 
+//Offline functionality
+if(!navigator.onLine){
+
+  console.log("Off line mode while saving review");
+  saveDataWhenGetOnline(review);
+  return;
+}
 
  
+  saveReviewData(review);
 
-fetch(url, {
+
+  //window.location.reload(true);
+
+}//End of add review function
+
+
+saveReviewData = (reviewData) => {
+
+   console.log("Inside saveReviewData,  reviewData = " + reviewData);
+   var url = 'http://localhost:1337/reviews/';
+
+  fetch(url, {
   method: 'post',
   headers: {
     'Accept': 'application/json, text/plain, */*',
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify(review)
+  body: JSON.stringify(reviewData)
 }).then(res=>res.json())
   .then(res => {
     console.log(res);
     window.location.reload(true);
   });
 
-  //window.location.reload(true);
 
-}//End of add review function
+}// End of function saveReviewData
+
+
+
+
+saveDataWhenGetOnline = (reviewObject) => {
+  console.log("Inside saveDataWhenGetOnline,  reviewObject = " + reviewObject);
+  localStorage.setItem('reviewData',JSON.stringify(reviewObject));
+
+  window.addEventListener('online',(event) => {
+    console.log("Becomes online again");
+    let offlineData = JSON.parse(localStorage.getItem('reviewData'));
+    if(offlineData !=null){
+      console.log("Offline data " + offlineData);
+      saveReviewData(offlineData);
+       console.log("Offline data sent to API ");
+    }
+
+    localStorage.removeItem('reviewData');
+    console.log("Remove local storage data");
+  });//End of addEventListener
+
+
+
+}//End of saveDataWhenGetOnline function
