@@ -161,6 +161,31 @@ createReviewHTML = (review) => {
   return li;
 }
 
+
+createReviewHTMLOffline = (review) => {
+  const ul = document.getElementById('reviews-list');
+  console.log("In createReviewHTMLOffline method");
+  const li = document.createElement('li');
+  li.style.backgroundColor = 'red';
+  const name = document.createElement('p');
+  name.innerHTML = review.name;
+  li.appendChild(name);
+
+  const date = document.createElement('p');
+  date.innerHTML = review.date;
+  li.appendChild(date);
+
+  const rating = document.createElement('p');
+  rating.innerHTML = `Rating: ${review.rating}`;
+  li.appendChild(rating);
+
+  const comments = document.createElement('p');
+  comments.innerHTML = review.comments;
+  li.appendChild(comments);
+
+  ul.prepend(li);
+}
+
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
@@ -216,6 +241,8 @@ addReview = () => {
 if(!navigator.onLine){
 
   console.log("Off line mode while saving review");
+  //Add the review html in UI in offline mode
+  createReviewHTMLOffline(review);
   saveDataWhenGetOnline(review);
   return;
 }
