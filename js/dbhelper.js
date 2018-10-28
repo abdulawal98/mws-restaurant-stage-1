@@ -41,11 +41,31 @@ static writeReviewsToIdb(data) {
         if (!db) return;
         var tx = db.transaction('reviewsStore', 'readwrite');
         var reviewsStore = tx.objectStore('reviewsStore');
-        var restaurantIndex = reviewsStore.index('restaurantId');
+        //var restaurantIndex = reviewsStore.index('restaurantId');
         data.forEach(record => reviewsStore.put(record));
         return tx.complete;
       }).then(function() {
         console.log('Success Writting Reviews to Database!');
+      });
+    }
+}
+
+
+static saveRestaurantsToIdb(data) {    
+
+    console.log("Inside saveRestaurantsToIdb,  JSON: ", data);
+    writeToDb(data);
+
+    function writeToDb(data) {
+      DBHelper.openIdb().then(function(db){
+        if (!db) return;
+        var tx = db.transaction('restaurantsStore', 'readwrite');
+        var reviewsStore = tx.objectStore('restaurantsStore');
+        
+        data.forEach(record => reviewsStore.put(record));
+        return tx.complete;
+      }).then(function() {
+        console.log('Success saving Restaurant info to Database!');
       });
     }
 }
@@ -119,18 +139,38 @@ static fetchReviewByRestaurantId(id,callback){
     }
 
 
-    fetch(fetchURL, { method: 'GET' })
-      .then(response => {        
-        response.json().then(restaurants => {
-          console.log("restaurants JSON: ", restaurants);
-          callback(null, restaurants);
-        });
-      })
-      .catch(error => {
-        callback(`Request failed. Returned ${error}`, null);
-      });
+    if(navigator.onLine) {
+            fetch(fetchURL, { method: 'GET' })
+              .then(response => {        
+                response.json().then(restaurants => {
+                  console.log("restaurants JSON: ", restaurants);
+                   DBHelper.saveRestaurantsToIdb(restaurants);
+                  callback(null, restaurants);
+                });
+              })
+              .catch(error => {
+                callback(`Request failed. Returned ${error}`, null);
+              });
+       }else{
 
-  }
+             //Offline restaurants data will come from idb
+                DBHelper.openIdb().then(function(db){
+                if(!db) return;
+                var tx = db.transaction('restaurantsStore');
+                var restaurantsStore = tx.objectStore('restaurantsStore');
+
+                return restaurantsStore.getAll();
+              }).then(function(restaurants){
+                callback(null, restaurants);
+                console.log('restaurants Data fetched from idb');
+              })
+
+
+
+
+       }   
+
+  }// End of fetchRestaurants function
 
   /**
    * Fetch a restaurant by its ID.
