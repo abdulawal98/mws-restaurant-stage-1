@@ -1,7 +1,58 @@
+//import idb from 'idb';
 /**
  * Common database helper functions.
  */
 class DBHelper {
+
+
+
+/**
+ * IDB Codes.
+ */
+
+
+
+/**
+   * Opens Idb
+   */
+   
+   static openIdb() {
+    var dbPromise = idb.open('offlineIdb', 10, function(upgradeDb) {
+      switch(upgradeDb.oldVersion) {
+        case 0:
+          var dbStore = upgradeDb.createObjectStore('restaurantsStore', {keyPath: 'id'});
+        case 1:
+         var reviewsStore = upgradeDb.createObjectStore('reviewsStore', {keyPath: 'id'});
+         reviewsStore.createIndex('restaurantId', 'restaurant_id');
+        
+      }
+    });
+    return dbPromise;
+}
+
+
+static writeReviewsToIdb(data) {    
+
+    console.log("Inside writeReviewsToIdb,  JSON: ", data);
+    writeToDb(data);
+
+    function writeToDb(data) {
+      DBHelper.openIdb().then(function(db){
+        if (!db) return;
+        var tx = db.transaction('reviewsStore', 'readwrite');
+        var reviewsStore = tx.objectStore('reviewsStore');
+        var restaurantIndex = reviewsStore.index('restaurantId');
+        data.forEach(record => reviewsStore.put(record));
+        return tx.complete;
+      }).then(function() {
+        console.log('Success Writting Reviews to Database!');
+      });
+    }
+}
+
+
+
+
 
   /**
    * Database URL.
@@ -20,18 +71,39 @@ static fetchReviewByRestaurantId(id,callback){
 
   //fetchURL = DBHelper.REVIEW_URL(id);
   console.log("fetchReviewByRestaurantId, url " + fetchURL);
-  fetch(fetchURL, { method: 'GET' })
-      .then(response => {        
-        response.json().then(reviews => {
-          console.log("reviews JSON: ", reviews);
-          callback(null, reviews);
-        });
-      })
-      .catch(error => {
-        callback(`Request failed. Returned ${error}`, null);
-      });
+
+    if(navigator.onLine) {
+
+      fetch(fetchURL, { method: 'GET' })
+          .then(response => {        
+            response.json().then(reviews => {
+              console.log("reviews JSON: ", reviews);
+              DBHelper.writeReviewsToIdb(reviews);
+              callback(null, reviews);
+            });
+          })
+          .catch(error => {
+            callback(`Request failed. Returned ${error}`, null);
+          });
+
+       }else{
+              //Offline review will come from idb
+                DBHelper.openIdb().then(function(db){
+                if(!db) return;
+                var tx = db.transaction('reviewsStore');
+                var reviewsStore = tx.objectStore('reviewsStore');
+
+                return reviewsStore.getAll();
+              }).then(function(reviews){
+                callback(null, reviews);
+                console.log('Data fetched from idb');
+              })
+
+       }   
+
+
   
-}//End of function
+}//End of function fetchReviewByRestaurantId
 
 
   /**
@@ -45,6 +117,8 @@ static fetchReviewByRestaurantId(id,callback){
     } else {
       fetchURL = DBHelper.DATABASE_URL + '/' + id;
     }
+
+
     fetch(fetchURL, { method: 'GET' })
       .then(response => {        
         response.json().then(restaurants => {
