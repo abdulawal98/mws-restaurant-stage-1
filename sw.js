@@ -17,7 +17,15 @@ self.addEventListener('install', function(event) {
          '/img/1.jpg',
         '/img/2.jpg',
         '/js/dbhelper.js',
-        '/js/restaurant_info.js'
+        '/js/restaurant_info.js',
+        '/js/idb.js',
+        '/js/main.js',
+        '/js/sw-register.js',
+        '/tasks.appcache',
+        '/img/launcher-icon-1x.png',
+        '/img/launcher-icon-2x.png',
+        '/img/launcher-icon-4x.png',
+        '/img/launcher-icon-10x.png'
         
 
       ]);
